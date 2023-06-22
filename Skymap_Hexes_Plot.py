@@ -1,12 +1,12 @@
-import os
+#import os
 from astropy.coordinates import SkyCoord
 from astropy.io import fits
 from astropy import units as u
-import ligo.skymap.plot
+#import ligo.skymap.plot
 from matplotlib import pyplot as plt
 import healpy as hp
 import numpy as np
-import ligo.skymap
+#import ligo.skymap
 import json
 
 
@@ -175,20 +175,7 @@ if __name__ == "__main__":
     ct = ax_inset.contour_hpx(url, levels = levels, colors = ['black'], linewidths = [1,0.5])
 
     ax_inset.imshow_hpx(url, cmap='cylon')
-    '''ax_inset.plot(
-        maxprob_ra, maxprob_dec,
-        transform=ax_inset.get_transform('world'),
-        marker=ligo.skymap.plot.reticle(),
-        markersize=30,
-        markeredgewidth=3)
-    ax.plot(
-        maxprob_ra, maxprob_dec,
-        transform=ax.get_transform('world'),
-        marker=ligo.skymap.plot.reticle(inner=0),
-        markersize=10,
-        markeredgewidth=3)'''
-    
-    plt.savefig('/Users/thomasruch/UMICH/O4testing/'+name,dpi=300, bbox_inches = "tight")
+    plt.savefig(name + '_w_Hexes',dpi=300, bbox_inches = "tight")
    
     
     plt.figure()
@@ -196,5 +183,5 @@ if __name__ == "__main__":
     plt.xlabel('Hex #')
     plt.ylabel(r'Cumulative $\%$ of Probability Covered')
     plt.title(name)
-    plt.savefig('/Users/thomasruch/UMICH/O4testing/'+name+'PROB',dpi=300, bbox_inches = "tight")
+    plt.savefig(name+'_Cumulative_Hex_Prob',dpi=300, bbox_inches = "tight")
     
