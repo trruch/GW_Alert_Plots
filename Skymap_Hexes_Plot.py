@@ -96,9 +96,9 @@ def get_prob_from_observing_json(json_data, prob_array):
 if __name__ == "__main__":
   
     
-    url = input('Url: ')
+    url = input('Skymap Url (or local path): ')
     name = input('Event Name: ')
-    jsonloc = input('Json Location: ')
+    jsonloc = input('Json path: ')
     
     f = open(jsonloc)
     data = json.load(f)
