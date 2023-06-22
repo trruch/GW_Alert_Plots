@@ -17,10 +17,10 @@ This is meant to be run after the strategy code as finished and an observing jso
 To run from the terminal:
 1. ``` $ python Skymap_Hexes_Plot.py ```
 2. Input the url or path to the skymap when prompted
-    - ``` Skymap Url (or local path): https://gracedb.ligo.org/api/superevents/S230615az/files/bayestar.fits.gz ```
+    - ``` Skymap Url (or local path): https://gracedb.ligo.org/api/superevents/S230518h/files/bayestar.fits.gz ```
     - Make sure the url is NOT the multi-order skymap! 
 4. Input the Event Name when prompted
-    - ``` Event Name: S230615az ```
+    - ``` Event Name: S230518h ```
 5. Input the path to the json file when prompted
     - ```Json path: ./S230518h_test.json```
 
