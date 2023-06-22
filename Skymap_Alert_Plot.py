@@ -2,11 +2,11 @@
 from astropy.coordinates import SkyCoord
 from astropy.io import fits
 from astropy import units as u
-#import ligo.skymap.plot
+import ligo.skymap.plot
 from matplotlib import pyplot as plt
 import healpy as hp
 import numpy as np
-#import ligo.skymap
+import ligo.skymap
 
 
 def make_alert_skymap(map_path):
