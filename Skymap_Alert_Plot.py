@@ -88,8 +88,7 @@ if __name__ == "__main__":
     plt.xticks([])
     plt.yticks([])
 
-    ax = plt.axes(
-        projection='astro hours mollweide')
+    ax = plt.axes(projection='astro hours mollweide')
 
     ax_inset = plt.axes(
         [0.9, 0.2, 0.2, 0.2],
