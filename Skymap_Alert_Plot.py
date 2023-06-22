@@ -1,12 +1,12 @@
-import os
+#import os
 from astropy.coordinates import SkyCoord
 from astropy.io import fits
 from astropy import units as u
-import ligo.skymap.plot
+#import ligo.skymap.plot
 from matplotlib import pyplot as plt
 import healpy as hp
 import numpy as np
-import ligo.skymap
+#import ligo.skymap
 
 
 def make_alert_skymap(map_path):
@@ -67,7 +67,7 @@ def make_alert_skymap(map_path):
 
 if __name__ == "__main__":
     
-    url = input('Url: ')
+    url = input('Skymap Url: ')
     name = input('Event Name: ')
 
     area50, area90, maxprob_ra, maxprob_dec, maxprob_dist, maxprob_distsigma, levels = make_alert_skymap(url)
@@ -89,7 +89,6 @@ if __name__ == "__main__":
     plt.yticks([])
 
     ax = plt.axes(
-        #[0.05, 0.05, 0.9, 0.9],
         projection='astro hours mollweide')
 
     ax_inset = plt.axes(
@@ -126,5 +125,5 @@ if __name__ == "__main__":
         markersize=10,
         markeredgewidth=3)
     
-    plt.savefig('/Users/thomasruch/UMICH/O4testing/'+name,dpi=300, bbox_inches = "tight")
+    plt.savefig(name+'_initial_skymap',dpi=300, bbox_inches = "tight")
    
