@@ -67,7 +67,7 @@ def make_alert_skymap(map_path):
 
 if __name__ == "__main__":
     
-    url = input('Skymap Url: ')
+    url = input('Skymap Url (or local path): ')
     name = input('Event Name: ')
 
     area50, area90, maxprob_ra, maxprob_dec, maxprob_dist, maxprob_distsigma, levels = make_alert_skymap(url)
