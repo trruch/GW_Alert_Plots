@@ -65,6 +65,37 @@ def make_alert_skymap(map_path):
     
     return (area50, area90, maxprob_ra, maxprob_dec, maxprob_dist, maxprob_distsigma, levels)
 
+def airmass(event_name,target_coords, telescope = CTIO, tscope_str = 'CTIO'):
+    ''' Target coords is a list of tuples containing ra, dec, and the name of the target'''
+
+    CTIO = Observer(longitude=-70.80*u.deg, latitude=-30.17*u.deg,
+                  elevation=3000*u.m, name="CTIO",timezone='America/Santiago')
+
+
+    if len(target_coords) > 1:
+        targets=[FixedTarget(coord=SkyCoord(ra=coords[0]*u.deg,dec=coords[1]*u.deg),name=coords[2]) for coords in target_coords]
+    else:
+        targets=FixedTarget(coord=SkyCoord(ra = target_coords[0][0]*u.deg,dec=target_coords[0][1]*u.deg),name='Max Prob Coord')
+
+    constraints = [AltitudeConstraint(10*u.deg, 90*u.deg), AtNightConstraint.twilight_civil()]
+
+    time_range=(Time.now(),Time.now()+1*u.day)
+    ever_observable = is_observable(constraints, tscope, targets, time_range=time_range)
+    
+    
+
+    fig,ax=plt.subplots(figsize=(12,8))
+    ax.set_title('Key Target Airmass Plot')
+    plot_airmass(targets,ax=ax,
+            observer=tscope,
+            time=tscope.midnight(Time.now()).to_datetime(timezone=tscope.timezone),
+            use_local_tz=True,
+            brightness_shading=True,
+            max_region=3,min_region=1.5)
+    plt.legend(loc='best')
+    plt.savefig(event_name+'_Airmass',dpi=300, bbox_inches = "tight")
+
+
 if __name__ == "__main__":
     
     url = input('Skymap Url (or local path): ')
@@ -76,6 +107,7 @@ if __name__ == "__main__":
 
     center = SkyCoord(maxprob_ra, maxprob_dec, unit="deg")  # defaults to ICRS frame
 
+    airmass(name, [(maxprob_ra, maxprob_dec)])
 
     fig = plt.figure(figsize=(10, 10), dpi=100)
     plt.annotate('Event Name: {}'.format(name) + '\n'
