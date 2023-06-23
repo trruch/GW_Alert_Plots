@@ -1,5 +1,5 @@
-# Orig: D. Warshawsky 5-18-2023
-# Modified: M. Gill 5-19-2023
+# Orig: Daniel Warshofsky 5-18-2023  (U.Minn)
+# Modified: M. Gill 5-19-2023  (U.Minn and FNAL)
 import numpy as np
 import pandas as pd
 from astropy.coordinates import SkyCoord
