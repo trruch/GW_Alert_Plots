@@ -110,7 +110,7 @@ def airmass(event_name,target_coords):
     plt.savefig(event_name+'_Airmass',dpi=300, bbox_inches = "tight")
 
 
-def moon(todays_date):
+def moon(event_name, todays_date):
     date = datetime.date.today()
     m = ephem.Moon(date)
     phase = round(m.moon_phase, 2)
@@ -171,7 +171,7 @@ if __name__ == "__main__":
     name = input('Event Name: ')
     date = input('Todays date (Ex: 2023-6-12): ')
 
-    moon(date)
+    moon(name, date)
     
     area50, area90, maxprob_ra, maxprob_dec, maxprob_dist, maxprob_distsigma, levels = make_alert_skymap(url)
 
