@@ -126,7 +126,8 @@ def moon(todays_date):
     
     
     #midnight = Time('2012-7-13 00:00:00') - utcoffset
-    midnight = Time(todays_date,'00:00:00') - utcoffset
+    mytime = todays_date + ' 00:00:00'
+    midnight = Time(mytime) - utcoffset
     
     
     delta_midnight = np.linspace(-12, 12, 1000)*u.hour
