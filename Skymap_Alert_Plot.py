@@ -65,12 +65,13 @@ def make_alert_skymap(map_path):
     
     return (area50, area90, maxprob_ra, maxprob_dec, maxprob_dist, maxprob_distsigma, levels)
 
-def airmass(event_name,target_coords, telescope = CTIO, tscope_str = 'CTIO'):
+def airmass(event_name,target_coords):
     ''' Target coords is a list of tuples containing ra, dec, and the name of the target'''
 
     CTIO = Observer(longitude=-70.80*u.deg, latitude=-30.17*u.deg,
                   elevation=3000*u.m, name="CTIO",timezone='America/Santiago')
 
+    telescope = CTIO ; tscope_str = 'CTIO'
 
     if len(target_coords) > 1:
         targets=[FixedTarget(coord=SkyCoord(ra=coords[0]*u.deg,dec=coords[1]*u.deg),name=coords[2]) for coords in target_coords]
