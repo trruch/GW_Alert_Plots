@@ -14,6 +14,12 @@ from astroplan import is_observable
 from astropy.time import Time
 from astroplan.plots import plot_airmass
 import sys
+from astropy.visualization import astropy_mpl_style, quantity_support
+from astropy.coordinates import AltAz, EarthLocation, SkyCoord
+from astropy.coordinates import get_sun
+from astropy.coordinates import get_body
+import datetime
+import ephem
 
 
 def make_alert_skymap(map_path):
@@ -104,11 +110,68 @@ def airmass(event_name,target_coords):
     plt.savefig(event_name+'_Airmass',dpi=300, bbox_inches = "tight")
 
 
+def moon(todays_date):
+    date = datetime.date.today()
+    m = ephem.Moon(date)
+    phase = round(m.moon_phase, 2)
+    
+    plt.style.use(astropy_mpl_style)
+    quantity_support()
+    
+    
+    
+    CTIO = EarthLocation(lat=-30.17*u.deg, lon=-70.80*u.deg, height=3000*u.m)
+    utcoffset = -4*u.hour  # Eastern Daylight Time
+    
+    
+    
+    #midnight = Time('2012-7-13 00:00:00') - utcoffset
+    midnight = Time(todays_date,'00:00:00') - utcoffset
+    
+    
+    delta_midnight = np.linspace(-12, 12, 1000)*u.hour
+    times_July12_to_13 = midnight + delta_midnight
+    frame_July12_to_13 = AltAz(obstime=times_July12_to_13, location=CTIO)
+    sunaltazs_July12_to_13 = get_sun(times_July12_to_13).transform_to(frame_July12_to_13)
+    
+    
+    
+    moon_July12_to_13 = get_body("moon", times_July12_to_13)
+    moonaltazs_July12_to_13 = moon_July12_to_13.transform_to(frame_July12_to_13)
+    
+    
+    plt.plot(delta_midnight, moonaltazs_July12_to_13.alt, color='blue', ls='--', label='Moon')
+    
+    plt.fill_between(delta_midnight, 0*u.deg, 90*u.deg, 
+                     sunaltazs_July12_to_13.alt < -0*u.deg, color='0.9', zorder=0)
+    plt.fill_between(delta_midnight, 0*u.deg, 90*u.deg, 
+                     sunaltazs_July12_to_13.alt < -6*u.deg, color='0.8', zorder=0)
+    plt.fill_between(delta_midnight, 0*u.deg, 90*u.deg, 
+                     sunaltazs_July12_to_13.alt < -12*u.deg, color='0.7', zorder=0)
+    plt.fill_between(delta_midnight, 0*u.deg, 90*u.deg, 
+                     sunaltazs_July12_to_13.alt < -18*u.deg, color='0.6', zorder=0)
+    
+    plt.text(-11.5, 75, 'Moon phase = {}'.format(phase),bbox=dict(facecolor='red', alpha=0.5))
+    plt.title(date)
+    plt.legend(loc='upper left')
+    plt.xlim(-12*u.hour, 12*u.hour)
+    plt.xticks((np.arange(13)*2-12)*u.hour)
+    plt.ylim(0*u.deg, 90*u.deg)
+    plt.xlabel('Hours from EDT Midnight')
+    plt.ylabel('Altitude [deg]')
+    plt.savefig(event_name+'_Moon',dpi=300, bbox_inches = "tight")
+
+
+
+
 if __name__ == "__main__":
     
     url = input('Skymap Url (or local path): ')
     name = input('Event Name: ')
+    date = input('Todays date (Ex: 2023-6-12): ')
 
+    moon(date)
+    
     area50, area90, maxprob_ra, maxprob_dec, maxprob_dist, maxprob_distsigma, levels = make_alert_skymap(url)
 
 
