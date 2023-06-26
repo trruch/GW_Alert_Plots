@@ -78,7 +78,7 @@ def make_alert_skymap(map_path):
 #######################
 def ra_dec2theta_phi(ra,dec):
     theta = 0.5 * np.pi - np.pi*dec/180
-    phi = 2*pi - np.deg2rad(ra)
+    phi = 2*np.pi - np.deg2rad(ra)
     return theta, phi
 
 def get_prob_from_observing_json(NSIDE, json_data, prob_array):
