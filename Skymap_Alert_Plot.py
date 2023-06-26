@@ -204,8 +204,8 @@ if __name__ == "__main__":
         ax_inset.coords[key].set_ticklabel_visible(True)
         ax_inset.coords[key].set_ticks_visible(True)
    
-    ax.grid()
-    ax_inset.grid()
+    ax.grid(color='r', linestyle='-', linewidth=2)
+    ax_inset.grid(color='r', linestyle='-', linewidth=2)
     ax.mark_inset_axes(ax_inset)
     ax.connect_inset_axes(ax_inset, 'upper right')
     ax.connect_inset_axes(ax_inset, 'lower left')
