@@ -78,10 +78,10 @@ def make_alert_skymap(map_path):
 #######################
 def ra_dec2theta_phi(ra,dec):
     theta = 0.5 * np.pi - np.pi*dec/180
-    phi = np.deg2rad(ra)
+    phi = 2*pi - np.deg2rad(ra)
     return theta, phi
 
-def get_prob_from_observing_json(json_data, prob_array):
+def get_prob_from_observing_json(NSIDE, json_data, prob_array):
     hex_number = []
     total_prob = []
     for i in range(len(data)):
@@ -217,7 +217,7 @@ if __name__ == "__main__":
    
     
     plt.figure()
-    plt.bar(get_prob_from_observing_json(data, prob)[0], get_prob_from_observing_json(data, prob)[1], width = 1, edgecolor = 'k')
+    plt.bar(get_prob_from_observing_json(nside, data, prob)[0], get_prob_from_observing_json(nside, data, prob)[1], width = 1, edgecolor = 'k')
     plt.xlabel('Hex #')
     plt.ylabel(r'Cumulative $\%$ of Probability Covered')
     plt.title(name)
