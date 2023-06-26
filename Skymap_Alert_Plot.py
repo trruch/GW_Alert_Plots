@@ -203,6 +203,7 @@ if __name__ == "__main__":
     for key in ['ra', 'dec']:
         ax_inset.coords[key].set_ticklabel_visible(True)
         ax_inset.coords[key].set_ticks_visible(True)
+   
     ax.grid()
     ax_inset.grid()
     ax.mark_inset_axes(ax_inset)
