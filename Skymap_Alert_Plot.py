@@ -95,6 +95,7 @@ def airmass(event_name,target_coords):
 
     time_range=(Time.now(),Time.now()+1*u.day)
     ever_observable = is_observable(constraints, tscope, targets, time_range=time_range)
+    print("Observable?'",ever_observable)
     
     
 
