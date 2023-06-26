@@ -78,7 +78,7 @@ def make_alert_skymap(map_path):
 #######################
 def ra_dec2theta_phi(ra,dec):
     theta = 0.5 * np.pi - np.pi*dec/180
-    phi = 2*np.pi - np.deg2rad(ra)
+    phi = np.deg2rad(ra)
     return theta, phi
 
 def get_prob_from_observing_json(NSIDE, json_data, prob_array):
@@ -89,7 +89,7 @@ def get_prob_from_observing_json(NSIDE, json_data, prob_array):
         dec = data[i]['dec']
         theta_hex, phi_hex = ra_dec2theta_phi(ra,dec)
         vec = hp.ang2vec(theta_hex, phi_hex)
-        decam_hex_disc = hp.query_disc(nside, vec, radius=np.radians(0.9772), nest = True)
+        decam_hex_disc = hp.query_disc(nside, vec, radius=np.radians(0.9772))
         prob_covered = np.sum(prob[decam_hex_disc])
         hex_number.append(i)
         total_prob.append(prob_covered + np.sum(total_prob))
