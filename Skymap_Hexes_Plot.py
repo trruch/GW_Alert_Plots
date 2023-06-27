@@ -1,4 +1,7 @@
 #import os
+# By Thomas Ruch, 6-2023
+# Comments by MSSG
+
 from astropy.coordinates import SkyCoord
 from astropy.io import fits
 from astropy import units as u
@@ -16,15 +19,16 @@ from astropy.time import Time
 from astroplan.plots import plot_airmass
 import sys
 
-
+# Function to make the map
 def make_alert_skymap(map_path):
+# Read the map via healpy
     skymap = hp.read_map(map_path, field=None)
     prob, distmu, distsigma, distnorm = skymap
     
     npix = len(prob)
     nside = hp.npix2nside(npix)
 
-
+# Find the coords for the max probability pixel, and convert to RA and Dec
     maxprobcoord_tup = hp.pix2ang(nside, np.argmax(prob))
     maxprobcoord = [0, 0]
     maxprobcoord[1] = np.rad2deg(0.5*np.pi-maxprobcoord_tup[0])
@@ -48,11 +52,12 @@ def make_alert_skymap(map_path):
             areas.append(area)
         return ([int(round(i,0)) for i in areas])
     
-    
+    # Confidence Interval
     def ci(level, sorted_prob=np.flip(np.sort(prob))):
         csum = 0
         c = 0
         index = 0
+
         while csum < level:
             csum += sorted_prob[index]
             c = sorted_prob[index]
@@ -97,7 +102,7 @@ def get_prob_from_observing_json(NSIDE, json_data, prob_array):
     prob_percent = [i*100 for i in total_prob]
     return hex_number, prob_percent
 
-
+# Making an airmass plot
 def airmass(event_name,target_coords):
     ''' Target coords is a list of tuples containing ra, dec, and the name of the target'''
 
@@ -132,7 +137,7 @@ def airmass(event_name,target_coords):
 
 if __name__ == "__main__":
   
-    
+    # Getting inputs of the skymap from LVC, then the JSON file from an output of the strategy code 
     url = input('Skymap Url (or local path): ')
     name = input('Event Name: ')
     jsonloc = input('Json path: ')
@@ -142,6 +147,7 @@ if __name__ == "__main__":
 
     area50, area90, maxprob_ra, maxprob_dec, maxprob_dist, maxprob_distsigma, levels, nside, prob = make_alert_skymap(url)
 
+    # Putting the coordinates of the hexes into an array
     airmass_input = [(data[i]['RA'], data[i]['dec'], 'Hex_'+str(i)) for i in range(len(data))]
     airmass(name, airmass_input)
 
@@ -172,10 +178,12 @@ if __name__ == "__main__":
         projection='astro hours mollweide')
     
     ax_inset = plt.axes(
+
         [0.9, 0.2, 0.2, 0.2],
         projection='astro zoom',
         center=hex_centers[0],
         radius=25*u.deg)
+
     
     ax_hexes = []
     for i in range(len(data)):
