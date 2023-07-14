@@ -1,3 +1,6 @@
+# Orig by T.Ruch
+# Changes by MSS Gill
+
 #import os
 from astropy.coordinates import SkyCoord
 from astropy.io import fits
@@ -167,10 +170,29 @@ def moon(event_name, todays_date):
 
 
 if __name__ == "__main__":
+
     
+    print(' \n  ********** Output will be three PNG file saved to disk of: ',
+          '\n - The current moon phase, ',
+          '\n - A skymap of the probability contours of the localization region of the event ',
+          '\n - The airmass to the highest probability pixel of the event as a target, as a function of time \n\n',
+         ' You can press return for the next 3 prompts and defaults will be used. \n')
+
     url = input('Skymap Url (or local path): ')
-    name = input('Event Name: ')
+    name = input(' For plots, event name: ')
     date = input('Todays date (Ex: 2023-6-12): ')
+
+    if url=="":
+        url="https://gracedb.ligo.org/api/superevents/S230615az/files/bayestar.fits.gz"
+        print("\n Defaulting to event = ",url)
+
+    if name=="":
+        name="S230615az"
+        print("\n Defaulting to name =  ",name)
+        
+    if len(date)==0:
+        date = datetime.date.today().strftime('%Y-%-m-%-d')
+        print("\n Defaulting to today's date =  ",date)
 
     moon(name, date)
     
