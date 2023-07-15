@@ -1,8 +1,8 @@
 # Orig by T.Ruch
 # Changes by MSS Gill
-# 7-15-2023
+# Current: 7-15-2023
 
-#
+
 
 #import os
 from astropy.coordinates import SkyCoord
@@ -101,7 +101,7 @@ def airmass(event_name,target_coords):
 
     time_range=(Time.now(),Time.now()+1*u.day)
     ever_observable = is_observable(constraints, tscope, targets, time_range=time_range)
-    print("Observable?'",ever_observable)
+
     
     
 
@@ -120,6 +120,10 @@ def airmass(event_name,target_coords):
 def moon(event_name, todays_date):
     date = datetime.date.today()
     m = ephem.Moon(date)
+#    print('\n ephem = ', m)
+
+#    print('\n m.moon_phase = ', m.moon_phase  )
+        
     phase = round(m.moon_phase, 2)
     
     plt.style.use(astropy_mpl_style)
@@ -197,16 +201,19 @@ if __name__ == "__main__":
         date = datetime.date.today().strftime('%Y-%-m-%-d')
         print("\n Defaulting to today's date =  ",date)
 
+    # Make the plot with the moon phases
     moon(name, date)
-    
+
+    # Get the numbers for the sky map plot
     area50, area90, maxprob_ra, maxprob_dec, maxprob_dist, maxprob_distsigma, levels = make_alert_skymap(url)
 
 
-
+    # Make airmass as a function of time plot
     center = SkyCoord(maxprob_ra, maxprob_dec, unit="deg")  # defaults to ICRS frame
-
     airmass(name, [(maxprob_ra, maxprob_dec)])
 
+
+    # Make the sky map with the probability contours
     fig = plt.figure(figsize=(10, 10), dpi=100)
     plt.annotate('Event Name: {}'.format(name) + '\n'
                  + r'50% Area: {} deg$^2$'.format(area50) + '\n'
